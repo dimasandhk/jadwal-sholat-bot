@@ -18,9 +18,8 @@
 	"dependencies": {
 		"@types/dotenv": "^8.2.0",
 		"@types/node": "^15.12.2",
-		"@types/node-fetch": "^2.5.10",
+		"axios": "^0.21.1",
 		"discord.js": "^12.5.3",
-		"dotenv": "^10.0.0",
-		"node-fetch": "^2.6.1"
+		"dotenv": "^10.0.0"
 	}
 }

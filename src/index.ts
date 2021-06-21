@@ -1,5 +1,5 @@
 import Discord from "discord.js";
-import fetch from "node-fetch";
+import axios from "axios";
 
 const client = new Discord.Client();
 
@@ -17,9 +17,7 @@ client.on("ready", (): void => console.log(`Logged in as ${client.user?.tag}`));
 client.on("message", (msg) => {
 	const qValue: string = msg.content.split("!jadwalsholat")[1];
 	const getLocationId = async (location: string) => {
-		const raw = await fetch(`${searchEndpoint}${location}`);
-		const response = await raw.json();
-
+		const response = await (await axios.get(`${searchEndpoint}${location}`)).data;
 		if (!response.status) return "Kota Tidak Ketemu";
 
 		return response.data[0].id;
@@ -33,13 +31,12 @@ client.on("message", (msg) => {
 		}
 
 		id = getId;
-		const rawJadwal = await fetch(urlMaker(id));
-		const dataJadwal = await rawJadwal.json();
+		const response = await (await axios.get(urlMaker(id))).data;
 
-		const jadwal = dataJadwal.data.jadwal;
-		const judul = `${dataJadwal.data.lokasi} (${jadwal.tanggal})`;
-
+		const jadwal = response.data.jadwal;
+		const judul = `${response.data.lokasi} (${jadwal.tanggal})`;
 		const arrOfJadwal = Object.entries(Object.entries(jadwal));
+
 		msg.channel.send(makeEmbed(judul, arrOfJadwal));
 	};
 
