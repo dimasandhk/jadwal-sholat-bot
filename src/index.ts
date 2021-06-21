@@ -1,8 +1,11 @@
 import Discord from "discord.js";
+import fetch from "node-fetch";
+
 const client = new Discord.Client();
 
-import fetch from "node-fetch";
-import { endpoint, searchEndpoint } from "./utils/var";
+// Utils
+import urlMaker from "./utils/urlMaker";
+import { searchEndpoint } from "./utils/var";
 import makeEmbed from "./utils/embed";
 
 // Dotenv Config
@@ -10,11 +13,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 client.on("ready", (): void => console.log(`Logged in as ${client.user?.tag}`));
-
-const urlMaker = (id: string) => {
-	const date = new Date().toISOString().split("T")[0];
-	return `${endpoint}${id}/${date.replace(/-/g, "/")}`;
-};
 
 client.on("message", (msg) => {
 	const qValue: string = msg.content.split("!jadwalsholat")[1];
